@@ -1,6 +1,5 @@
 package com.sparta.jpacalendarapp.repository;
 
-import com.sparta.jpacalendarapp.entity.Schedule;
 import com.sparta.jpacalendarapp.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
