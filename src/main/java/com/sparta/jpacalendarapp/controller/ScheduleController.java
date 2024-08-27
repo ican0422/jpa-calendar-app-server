@@ -62,9 +62,9 @@ public class ScheduleController {
 
     /**
      * 사용자의 일정을 수정한다. 일정 제목, 일정 내용을 수정 받는다.
-     * @param id 일정의 아이디를 받는다.
+     * @param id 수정할 일정 ID
      * @param request 일정의 제목, 일정의 내용을 받는다.
-     * @return 수정이 완료 된 일정의 id를 반환
+     * @return 수정된 일정 ID
      */
     @PutMapping("/schedules/{id}")
     public Long updateSchedule(@PathVariable Long id, @RequestBody PutScheduleRequestDto request) {
@@ -73,8 +73,8 @@ public class ScheduleController {
 
     /**
      * 사용자 일정을 삭제(영속성 전이)
-     * @param id 일정 id를 받는다.
-     * @return 삭제된 일정 id값을 반환
+     * @param id 삭제할 일정 ID
+     * @return 삭제된 일정 ID
      */
     @DeleteMapping("/schedules/{id}")
     public Long deleteSchedule(@PathVariable Long id) {

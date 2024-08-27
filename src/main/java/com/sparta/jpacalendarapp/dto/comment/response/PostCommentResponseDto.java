@@ -1,7 +1,6 @@
 package com.sparta.jpacalendarapp.dto.comment.response;
 
 import com.sparta.jpacalendarapp.entity.Comment;
-import com.sparta.jpacalendarapp.entity.Schedule;
 import lombok.Getter;
 
 import java.time.LocalDateTime;

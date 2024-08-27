@@ -1,13 +1,12 @@
 package com.sparta.jpacalendarapp.dto.comment.response;
 
 import com.sparta.jpacalendarapp.entity.Comment;
-import com.sparta.jpacalendarapp.entity.Schedule;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class GetResponseDto {
+public class GetCommentResponseDto {
     private Long id;
     private String content;
     private String name;
@@ -15,7 +14,7 @@ public class GetResponseDto {
     private LocalDateTime modifiedDate;
     private Long schedule_id;
 
-    public GetResponseDto(Comment comment) {
+    public GetCommentResponseDto(Comment comment) {
         this.id = comment.getId();
         this.content = comment.getContent();
         this.name = comment.getName();

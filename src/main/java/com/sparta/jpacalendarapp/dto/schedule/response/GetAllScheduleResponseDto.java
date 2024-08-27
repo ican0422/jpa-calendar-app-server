@@ -15,7 +15,7 @@ public class GetAllScheduleResponseDto {
 
     public GetAllScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
-        this.name = schedule.getName();
+        this.name = schedule.getUser().getName();
         this.content = schedule.getContent();
         this.creation_Date = schedule.getCreationDate();
         this.modified_Date = schedule.getModifiedDate();

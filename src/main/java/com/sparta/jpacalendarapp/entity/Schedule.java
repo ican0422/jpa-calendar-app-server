@@ -15,15 +15,21 @@ import java.util.List;
 @NoArgsConstructor
 public class Schedule extends Timestamped{
 
-    private String name;
     private String content;
     private String title;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> commentList = new ArrayList<>();
 
-    public Schedule(PostScheduleRequestDto request) {
-        this.name = request.getName();
+    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    private List<ScheduleAssignment> scheduleAssignments = new ArrayList<>();
+
+    public Schedule(PostScheduleRequestDto request, User user) {
+        this.user = user;
         this.title = request.getTitle();
         this.content = request.getContent();
     }

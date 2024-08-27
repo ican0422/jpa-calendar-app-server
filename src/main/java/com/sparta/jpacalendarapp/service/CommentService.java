@@ -3,13 +3,12 @@ package com.sparta.jpacalendarapp.service;
 import com.sparta.jpacalendarapp.dto.comment.request.PostCommentRequestDto;
 import com.sparta.jpacalendarapp.dto.comment.request.PutCommentRequestDto;
 import com.sparta.jpacalendarapp.dto.comment.response.GetAllCommentResponseDto;
-import com.sparta.jpacalendarapp.dto.comment.response.GetResponseDto;
+import com.sparta.jpacalendarapp.dto.comment.response.GetCommentResponseDto;
 import com.sparta.jpacalendarapp.dto.comment.response.PostCommentResponseDto;
 import com.sparta.jpacalendarapp.entity.Comment;
 import com.sparta.jpacalendarapp.entity.Schedule;
 import com.sparta.jpacalendarapp.repository.CommentRepository;
 import com.sparta.jpacalendarapp.repository.ScheduleRepository;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,8 +39,8 @@ public class CommentService {
     }
 
     /* 댓글 단건 조회 */
-    public List<GetResponseDto> getOneComment(Long sid, Long cid) {
-        return commentRepository.findByscheduleIdAndId(sid,cid).stream().map(GetResponseDto::new).toList();
+    public List<GetCommentResponseDto> getOneComment(Long sid, Long cid) {
+        return commentRepository.findByscheduleIdAndId(sid,cid).stream().map(GetCommentResponseDto::new).toList();
     }
 
     /* 댓글 다건 조회 */

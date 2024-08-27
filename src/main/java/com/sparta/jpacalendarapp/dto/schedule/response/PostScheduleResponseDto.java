@@ -16,7 +16,7 @@ public class PostScheduleResponseDto {
 
     public PostScheduleResponseDto(Schedule schedule) {
         this.id = schedule.getId();
-        this.name = schedule.getName();
+        this.name = schedule.getUser().getName();
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
         this.creation_Date = schedule.getCreationDate();

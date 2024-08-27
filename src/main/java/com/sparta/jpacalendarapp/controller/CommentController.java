@@ -3,7 +3,7 @@ package com.sparta.jpacalendarapp.controller;
 import com.sparta.jpacalendarapp.dto.comment.request.PostCommentRequestDto;
 import com.sparta.jpacalendarapp.dto.comment.request.PutCommentRequestDto;
 import com.sparta.jpacalendarapp.dto.comment.response.GetAllCommentResponseDto;
-import com.sparta.jpacalendarapp.dto.comment.response.GetResponseDto;
+import com.sparta.jpacalendarapp.dto.comment.response.GetCommentResponseDto;
 import com.sparta.jpacalendarapp.dto.comment.response.PostCommentResponseDto;
 import com.sparta.jpacalendarapp.service.CommentService;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +37,7 @@ public class CommentController {
      * @return 조회한 댓글의 정보
      */
     @GetMapping("/schedules/{sid}/comments/{cid}")
-    public List<GetResponseDto> getOneComment(@PathVariable Long sid, @PathVariable Long cid) {
+    public List<GetCommentResponseDto> getOneComment(@PathVariable Long sid, @PathVariable Long cid) {
         return commentService.getOneComment(sid, cid);
     }
 
@@ -53,16 +53,22 @@ public class CommentController {
 
     /**
      * 해당 일정의 댓글 수정
-     * @param sid 어떤 일정인지 보여주는 PathVariable
+     * @param sid 일정 ID (수정할 댓글이 어느 일정에 있는지 표시하기 위한 잉여데이터)
      * @param cid 수정할 댓글 ID
      * @param request 수정할 댓글 내용(content)
-     * @return 성공한 댓글 ID 반환
+     * @return 수정한 댓글 ID
      */
     @PutMapping("/schedules/{sid}/comments/{cid}")
     public Long updateComment(@PathVariable Long sid, @PathVariable Long cid, @RequestBody PutCommentRequestDto request) {
         return commentService.updateComment(cid, request);
     }
 
+    /**
+     * 댓글 삭제
+     * @param sid 일정 ID (삭제할 댓글이 어느 일정에 있는지 표시하기 위한 잉여데이터)
+     * @param cid 삭제할 댓글 ID
+     * @return 삭제한 댓글 ID
+     */
     @DeleteMapping("/schedules/{sid}/comments/{cid}")
     public Long deleteComment(@PathVariable Long sid, @PathVariable Long cid) {
         return commentService.deleteComment(cid);
