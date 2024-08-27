@@ -26,7 +26,7 @@ public class ScheduleController {
 
     /**
      * 사용자가 일정을 등록하는 컨트롤러
-     * @param request 사용자 이름, 일정 제목, 일정 내용
+     * @param request 사용자 이름, 일정 제목, 일정 내용, 담당 유저 리스트
      * @return 등록된 일정 id, 사용자 이름, 일정 제목, 일정 내용, 등록 시작, 수정 시간
      */
     @PostMapping("/schedules")
@@ -62,7 +62,7 @@ public class ScheduleController {
 
     /**
      * 사용자의 일정을 수정한다. 일정 제목, 일정 내용을 수정 받는다.
-     * @param id 수정할 일정 ID
+     * @param id 수정할 일정 ID, 일정 제목, 일정 내용, 담당 유저 리스트
      * @param request 일정의 제목, 일정의 내용을 받는다.
      * @return 수정된 일정 ID
      */

@@ -99,12 +99,16 @@ public class ScheduleService {
     private void addUsersToSchedule(Schedule schedule, List<Long> userIdList) {
         // 유저 List 받아온다. 받아온 데이터중 List안에 추가 유저 id가 null이라면 해당 로직은 실행되지 않는다.
         if (userIdList != null){
-            List<Long> userIds = userIdList;
+            // 유저 객체 담을 리스트
             List<User> usersToAdd = new ArrayList<>();
-            for (Long userId : userIds) {
+            // 유저 ID 리스트를 하나씩 조회 하면서 ID가 있다면 객체를 리스트에 담는다.
+            for (Long userId : userIdList) {
+                // ID가 있는지 확인
                 User plusUser = userRepository.findByIdOrElseThrow(userId);
+                // 있다면 객체를 리스트에 추가
                 usersToAdd.add(plusUser);
             }
+            // 객체를 하나씩 조회하면서 중간 테이블에 저장
             for (User plusUser : usersToAdd) {
                 // 중간 테이블 Entity 생성
                 ScheduleAssignment assignment = new ScheduleAssignment(schedule, plusUser);
