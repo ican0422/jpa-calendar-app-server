@@ -13,7 +13,7 @@ public class PostCommentResponseDto {
     private String name;
     private LocalDateTime creationDate;
     private LocalDateTime modifiedDate;
-    private Schedule schedule;
+    private Long scheduleId;
 
     public PostCommentResponseDto(Comment comment) {
         this.id = comment.getId();
@@ -21,6 +21,6 @@ public class PostCommentResponseDto {
         this.name = comment.getName();
         this.creationDate = comment.getCreationDate();
         this.modifiedDate = comment.getModifiedDate();
-        this.schedule = comment.getSchedule();
+        this.scheduleId = comment.getSchedule().getId();
     }
 }
