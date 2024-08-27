@@ -19,7 +19,7 @@ public class Schedule extends Timestamped{
     private String content;
     private String title;
 
-    @OneToMany(mappedBy = "schedule")
+    @OneToMany(mappedBy = "schedule", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Comment> commentList = new ArrayList<>();
 
     public Schedule(PostScheduleRequestDto request) {
@@ -33,9 +33,9 @@ public class Schedule extends Timestamped{
         this.content = request.getContent();
     }
     public void addComment(Comment comment) {
-        this.commentList.add(comment);
         if (comment.getSchedule() != this) {
             comment = new Comment(comment.getContent(), comment.getName(), comment.getSchedule());
         }
+        this.commentList.add(comment);
     }
 }

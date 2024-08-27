@@ -70,4 +70,14 @@ public class ScheduleController {
     public Long updateSchedule(@PathVariable Long id, @RequestBody PutScheduleRequestDto request) {
         return scheduleService.updateSchedule(id, request);
     }
+
+    /**
+     * 사용자 일정을 삭제(영속성 전이)
+     * @param id 일정 id를 받는다.
+     * @return 삭제된 일정 id값을 반환
+     */
+    @DeleteMapping("/schedules/{id}")
+    public Long deleteSchedule(@PathVariable Long id) {
+        return scheduleService.deleteSchedile(id);
+    }
 }

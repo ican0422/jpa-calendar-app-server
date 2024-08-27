@@ -57,6 +57,15 @@ public class ScheduleService {
         return id;
     }
 
+    /* 일정 삭제(영속성 전이) */
+    public Long deleteSchedile(Long id) {
+        Schedule schedule = findSchedule(id);
+
+        scheduleRepository.delete(schedule);
+
+        return id;
+    }
+
     /* 일정 ID 조회 */
     private Schedule findSchedule(Long id) {
         return scheduleRepository.findByIdOrElseThrow(id);
