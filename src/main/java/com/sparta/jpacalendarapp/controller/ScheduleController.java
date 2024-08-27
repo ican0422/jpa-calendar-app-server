@@ -51,7 +51,8 @@ public class ScheduleController {
      */
     @GetMapping("/schedules")
     public Page<GetAllScheduleResponseDto> getAllSchedule(
-            @PageableDefault(page = 0,
+            @PageableDefault(
+                    page = 0,
                     size = 10,
                     sort = "modifiedDate",
                     direction = Sort.Direction.DESC
