@@ -16,11 +16,15 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class CommentService {
 
     private final CommentRepository commentRepository;
     private final ScheduleRepository scheduleRepository;
+
+    public CommentService(CommentRepository commentRepository, ScheduleRepository scheduleRepository) {
+        this.commentRepository = commentRepository;
+        this.scheduleRepository = scheduleRepository;
+    }
 
     /* 댓글 등록 */
     public PostCommentResponseDto createComment(Long sid, PostCommentRequestDto request) {
