@@ -34,11 +34,21 @@ public class ScheduleController {
         return scheduleService.createSchedule(request);
     }
 
+    /**
+     * 일정의 단건 조회 컨트롤러
+     * @param id 일정 id를 받는다
+     * @return 단건 조회한 일정을 보여준다.
+     */
     @GetMapping("/schedules/{id}")
     public List<GetScheduleResponseDto> getOneSchedule(@PathVariable Long id) {
         return scheduleService.getOneSchedule(id);
     }
 
+    /**
+     * 사용자가 입력한 일정의 다건 조회(페이징 기능 활성화)
+     * @param pageable 페이지 혹은 사이즈를 받아서 조회 기본 페이지 사이즈는 10
+     * @return 페이지 값에 데이터 갯수 리턴, 기본 사이즈는 10, 수정날짜에 따른 내림차순 정렬
+     */
     @GetMapping("/schedules")
     public Page<GetAllScheduleResponseDto> getAllSchedule(
             @PageableDefault(page = 0,
@@ -50,6 +60,12 @@ public class ScheduleController {
         return scheduleService.getAllSchedule(pageable);
     }
 
+    /**
+     * 사용자의 일정을 수정한다. 일정 제목, 일정 내용을 수정 받는다.
+     * @param id 일정의 아이디를 받는다.
+     * @param request 일정의 제목, 일정의 내용을 받는다.
+     * @return 수정이 완료 된 일정의 id를 반환
+     */
     @PutMapping("/schedules/{id}")
     public Long updateSchedule(@PathVariable Long id, @RequestBody PutScheduleRequestDto request) {
         return scheduleService.updateSchedule(id, request);

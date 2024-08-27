@@ -6,22 +6,21 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "schedule")
 @Getter
 @NoArgsConstructor
 public class Schedule extends Timestamped{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+
     private String name;
-
-    @Column(name = "content", nullable = false)
     private String content;
-
-    @Column(name = "title", nullable = false)
     private String title;
 
+    @OneToMany(mappedBy = "schedule")
+    private List<Comment> commentList = new ArrayList<>();
 
     public Schedule(PostScheduleRequestDto request) {
         this.name = request.getName();
@@ -32,5 +31,11 @@ public class Schedule extends Timestamped{
     public void update(PutScheduleRequestDto request) {
         this.title = request.getTitle();
         this.content = request.getContent();
+    }
+    public void addComment(Comment comment) {
+        this.commentList.add(comment);
+        if (comment.getSchedule() != this) {
+            comment = new Comment(comment.getContent(), comment.getName(), comment.getSchedule());
+        }
     }
 }

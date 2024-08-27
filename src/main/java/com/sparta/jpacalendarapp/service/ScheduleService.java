@@ -22,6 +22,7 @@ public class ScheduleService {
         this.scheduleRepository = scheduleRepository;
     }
 
+    /* 일정 생성 */
     public PostScheduleResponseDto createSchedule(PostScheduleRequestDto request) {
         // dto -> entity 변환
         Schedule schedule = new Schedule(request);
@@ -35,10 +36,18 @@ public class ScheduleService {
         return responseDto;
     }
 
+    /* 일정 단건 조회 */
     public List<GetScheduleResponseDto> getOneSchedule(Long id) {
         return scheduleRepository.findAllById(id).stream().map(GetScheduleResponseDto::new).toList();
     }
 
+    /* 일정 다건 조회(페이징) */
+    public Page<GetAllScheduleResponseDto> getAllSchedule(Pageable pageable) {
+        return scheduleRepository.findAll(pageable)
+                .map(GetAllScheduleResponseDto::new);
+    }
+
+    /* 일정 수정 */
     @Transactional
     public Long updateSchedule(Long id, PutScheduleRequestDto request) {
         Schedule schedule = findSchedule(id);
@@ -48,14 +57,8 @@ public class ScheduleService {
         return id;
     }
 
+    /* 일정 ID 조회 */
     private Schedule findSchedule(Long id) {
-        return scheduleRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("선택한 메모는 존재하지 않습니다.")
-        );
-    }
-
-    public Page<GetAllScheduleResponseDto> getAllSchedule(Pageable pageable) {
-        return scheduleRepository.findAll(pageable)
-                .map(GetAllScheduleResponseDto::new);
+        return scheduleRepository.findByIdOrElseThrow(id);
     }
 }
