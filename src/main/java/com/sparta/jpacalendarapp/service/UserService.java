@@ -10,13 +10,13 @@ import com.sparta.jpacalendarapp.dto.user.response.PostUserLoginResponseDto;
 import com.sparta.jpacalendarapp.dto.user.response.PostUserResponseDto;
 import com.sparta.jpacalendarapp.entity.User;
 import com.sparta.jpacalendarapp.entity.UserRoleEnum;
+import com.sparta.jpacalendarapp.exception.UserOrPasswordNotFoundException;
 import com.sparta.jpacalendarapp.jwt.JwtUtil;
 import com.sparta.jpacalendarapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -50,11 +50,11 @@ public class UserService {
 
         // 유저 이메일 가져오기
         User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new NoSuchElementException("이메일을 찾을 수 없습니다."));
+                .orElseThrow(() -> new UserOrPasswordNotFoundException("이메일을 찾을 수 없습니다."));
 
         // 유저 비밀번호 맞는지 확인
         if (!passwordEncoder.matches(userPwd, user.getPassword())) {
-            throw new IllegalArgumentException("비밀번호가 맞지 않습니다.");
+            throw new UserOrPasswordNotFoundException("비밀번호가 맞지 않습니다.");
         }
         String token = jwtUtil.createToken(request.getEmail());
 

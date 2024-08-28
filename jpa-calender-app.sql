@@ -7,6 +7,7 @@ create table schedule (
     modified_date datetime(6),
     content varchar(255),
     title varchar(255),
+    weather varchar(255),
     user_id bigint,
     primary key (id)
 )

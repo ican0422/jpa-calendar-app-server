@@ -5,18 +5,24 @@ import com.sparta.jpacalendarapp.dto.schedule.request.PutScheduleRequestDto;
 import com.sparta.jpacalendarapp.dto.schedule.response.GetAllScheduleResponseDto;
 import com.sparta.jpacalendarapp.dto.schedule.response.GetScheduleResponseDto;
 import com.sparta.jpacalendarapp.dto.schedule.response.PostScheduleResponseDto;
+import com.sparta.jpacalendarapp.dto.schedule.response.WeatherResponseDto;
 import com.sparta.jpacalendarapp.entity.Schedule;
 import com.sparta.jpacalendarapp.entity.ScheduleAssignment;
 import com.sparta.jpacalendarapp.entity.User;
 import com.sparta.jpacalendarapp.repository.AssignmentRepository;
 import com.sparta.jpacalendarapp.repository.ScheduleRepository;
 import com.sparta.jpacalendarapp.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.client.RestTemplate;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -25,15 +31,21 @@ public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final AssignmentRepository assignmentRepository;
     private final UserRepository userRepository;
+    private final RestTemplate restTemplate;
+
+    @Value("${weather.api.url}")
+    private String weatherApiUrl;
 
     public ScheduleService(
             ScheduleRepository scheduleRepository,
             AssignmentRepository assignmentRepository,
-            UserRepository userRepository
+            UserRepository userRepository,
+            RestTemplate restTemplate
     ) {
         this.scheduleRepository = scheduleRepository;
         this.assignmentRepository = assignmentRepository;
         this.userRepository = userRepository;
+        this.restTemplate = restTemplate;
     }
 
     /* 일정 생성 */
@@ -42,8 +54,11 @@ public class ScheduleService {
         User user = userRepository.findById(request.getUserId()).orElseThrow(()
                 -> new NoSuchElementException("해당 유저가 없습니다."));
 
+        WeatherResponseDto weatherResponseDto = getWeatherForToday();
+        String weather = weatherResponseDto.getWeather();
+
         // dto -> entity 변환
-        Schedule schedule = new Schedule(request, user);
+        Schedule schedule = new Schedule(request, user,weather);
 
         // DB 저장
         Schedule saveSchedule = scheduleRepository.save(schedule);
@@ -116,5 +131,26 @@ public class ScheduleService {
                 assignmentRepository.save(assignment);
             }
         }
+    }
+
+    public WeatherResponseDto getWeatherForToday () {
+        WeatherResponseDto[] response = restTemplate.getForObject(weatherApiUrl, WeatherResponseDto[].class);
+        if (response == null || response.length == 0) {
+            throw new IllegalStateException("날씨 정보를 가져오는데 실패 했습니다.");
+        }
+        String today = LocalDate.now()
+                .format(DateTimeFormatter.ofPattern("MM-dd"));
+
+        return Arrays.stream(response)
+                .filter(weather -> today.equals(weather.getDate()))
+                .findFirst()
+                .orElseGet(() -> {
+                    WeatherResponseDto weatherResponseDto = new WeatherResponseDto();
+                    weatherResponseDto.setDate(today);
+                    weatherResponseDto.setWeather("날씨 정보 없음");
+                    return weatherResponseDto;
+
+                });
+
     }
 }

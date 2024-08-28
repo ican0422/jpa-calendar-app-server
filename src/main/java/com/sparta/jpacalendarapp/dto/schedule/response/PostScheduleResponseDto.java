@@ -11,6 +11,7 @@ public class PostScheduleResponseDto {
     private String name;
     private String title;
     private String content;
+    private String weather;
     private LocalDateTime creation_Date;
     private LocalDateTime modified_Date;
 
@@ -19,6 +20,7 @@ public class PostScheduleResponseDto {
         this.name = schedule.getUser().getName();
         this.title = schedule.getTitle();
         this.content = schedule.getContent();
+        this.weather = schedule.getWeather();
         this.creation_Date = schedule.getCreationDate();
         this.modified_Date = schedule.getModifiedDate();
     }
