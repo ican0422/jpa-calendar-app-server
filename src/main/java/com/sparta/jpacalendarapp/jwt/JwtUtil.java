@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
 import java.security.Key;
 import java.util.Base64;
 import java.util.Date;
@@ -28,29 +30,27 @@ public class JwtUtil {
 
     @Value("${jwt.secret.key}") // Base64 Encode 한 SecretKey
     private String secretKey;
-    private Key key;
     private final SignatureAlgorithm signatureAlgorithm = SignatureAlgorithm.HS256;
+
+    private SecretKey getSecretKey() {
+        byte[] keyBytes = Base64.getDecoder().decode(secretKey);
+        return new SecretKeySpec(keyBytes, SignatureAlgorithm.HS512.getJcaName());
+
+    }
 
     // 로그 설정
     public static final Logger logger = LoggerFactory.getLogger("JWT 관련 로그");
 
-    @PostConstruct
-    public void init() {
-        byte[] bytes = Base64.getDecoder().decode(secretKey);
-        key = Keys.hmacShaKeyFor(bytes);
-    }
-
     // 토큰 생성
-    public String createToken(String email) {
-        Date date = new Date();
-
-        return BEARER_PREFIX +
-                Jwts.builder()
-                        .setSubject(email) // 사용자 식별자값(ID)
-                        .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
-                        .setIssuedAt(date) // 발급일
-                        .signWith(key, signatureAlgorithm) // 암호화 알고리즘
-                        .compact();
+    public String createToken(String email, UserRoleEnum role) {
+        Date now = new Date();
+        return Jwts.builder()
+                .setSubject(email)
+                .claim(AUTHORIZATION_KEY, role.name())
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + TOKEN_TIME))
+                .signWith(SignatureAlgorithm.HS256, getSecretKey())
+                .compact();
     }
 
     // 토큰에서 사용자 이름 추출

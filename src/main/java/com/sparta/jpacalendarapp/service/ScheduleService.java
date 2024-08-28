@@ -9,6 +9,7 @@ import com.sparta.jpacalendarapp.dto.schedule.response.WeatherResponseDto;
 import com.sparta.jpacalendarapp.entity.Schedule;
 import com.sparta.jpacalendarapp.entity.ScheduleAssignment;
 import com.sparta.jpacalendarapp.entity.User;
+import com.sparta.jpacalendarapp.exception.UserOrPasswordNotFoundException;
 import com.sparta.jpacalendarapp.repository.AssignmentRepository;
 import com.sparta.jpacalendarapp.repository.ScheduleRepository;
 import com.sparta.jpacalendarapp.repository.UserRepository;
@@ -52,7 +53,7 @@ public class ScheduleService {
     public PostScheduleResponseDto createSchedule(PostScheduleRequestDto request) {
         // 유저 ID 찾기
         User user = userRepository.findById(request.getUserId()).orElseThrow(()
-                -> new NoSuchElementException("해당 유저가 없습니다."));
+                -> new UserOrPasswordNotFoundException("해당 유저가 없습니다."));
 
         WeatherResponseDto weatherResponseDto = getWeatherForToday();
         String weather = weatherResponseDto.getWeather();

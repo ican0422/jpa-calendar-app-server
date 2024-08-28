@@ -36,7 +36,7 @@ public class UserService {
         String password = passwordEncoder.encode(request.getPassword());
         UserRoleEnum role = request.getUserRole() != null ? request.getUserRole() : UserRoleEnum.USER;
         User user = new User(request, password, role);
-        String token = jwtUtil.createToken(request.getEmail());
+        String token = jwtUtil.createToken(request.getEmail(), role);
 
         PostUserResponseDto responseDto = new PostUserResponseDto(userRepository.save(user), token);
 
@@ -56,7 +56,7 @@ public class UserService {
         if (!passwordEncoder.matches(userPwd, user.getPassword())) {
             throw new UserOrPasswordNotFoundException("비밀번호가 맞지 않습니다.");
         }
-        String token = jwtUtil.createToken(request.getEmail());
+        String token = jwtUtil.createToken(request.getEmail(), user.getRole());
 
         PostUserLoginResponseDto responseDto = new PostUserLoginResponseDto(user ,token);
 
