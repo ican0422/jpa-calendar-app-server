@@ -1,7 +1,7 @@
 JPA를 활용한 일정관리 어플리케이션
 ==================================
 ## [ERD](https://dbdiagram.io/d/66ce11b5cf8e2d1d1c065d8c)
-![ERD](https://github.com/user-attachments/assets/de99d062-575d-49aa-9fac-7b17daa7e142)
+![ERD](https://github.com/user-attachments/assets/781883cc-09a1-45aa-bf0b-03f80294f72d)
 - - -
 ## API
 ### [일정 API](https://documenter.getpostman.com/view/37572363/2sAXjJ4sBb)
