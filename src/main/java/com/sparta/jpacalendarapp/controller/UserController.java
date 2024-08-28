@@ -1,9 +1,11 @@
 package com.sparta.jpacalendarapp.controller;
 
+import com.sparta.jpacalendarapp.dto.user.request.PostUserLoginRequestDto;
 import com.sparta.jpacalendarapp.dto.user.request.PostUserRequestDto;
 import com.sparta.jpacalendarapp.dto.user.request.UpdateUserRequestDto;
 import com.sparta.jpacalendarapp.dto.user.response.GetAllUserResponseDto;
 import com.sparta.jpacalendarapp.dto.user.response.GetUserResponseDto;
+import com.sparta.jpacalendarapp.dto.user.response.PostUserLoginResponseDto;
 import com.sparta.jpacalendarapp.dto.user.response.PostUserResponseDto;
 import com.sparta.jpacalendarapp.service.UserService;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +30,11 @@ public class UserController {
     @PostMapping("/users")
     public PostUserResponseDto createUser(@RequestBody PostUserRequestDto request) {
         return userService.createUser(request);
+    }
+
+    @PostMapping("/users/logins")
+    public PostUserLoginResponseDto loginUser(@RequestBody PostUserLoginRequestDto request) {
+        return userService.loginUser(request);
     }
 
     /**

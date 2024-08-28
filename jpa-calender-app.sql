@@ -40,6 +40,7 @@ create table user (
     email varchar(255),
     name varchar(255),
     password varchar(255),
+    role enum ('ADMIN','USER'),
     primary key (id)
 )
 

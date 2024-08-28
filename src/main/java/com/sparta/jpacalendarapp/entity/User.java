@@ -15,16 +15,21 @@ import java.util.List;
 @NoArgsConstructor
 public class User extends Timestamped{
     private String name;
+    @Column(name = "email", unique = true)
     private String email;
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private UserRoleEnum role;
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<ScheduleAssignment> scheduleAssignments = new ArrayList<>();
 
-    public User(PostUserRequestDto request, String password) {
+    public User(PostUserRequestDto request, String password, UserRoleEnum role) {
         this.name = request.getName();
         this.email = request.getEmail();
         this.password = password;
+        this.role = role;
     }
 
     public void update(UpdateUserRequestDto request) {
