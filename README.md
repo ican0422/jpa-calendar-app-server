@@ -11,7 +11,7 @@ JPA를 활용한 일정관리 어플리케이션
 ![댓글 API](https://github.com/user-attachments/assets/cc799ec1-2407-435d-910e-f3162b48851b)
 
 ### [유저 API](https://documenter.getpostman.com/view/37572363/2sAXjJ4sFu)
-![유저 API](https://github.com/user-attachments/assets/f3c31370-cb3c-4a36-a943-7181ccb5a753)
+![유저 API](https://github.com/user-attachments/assets/167cfc2f-bc84-4d8c-af9d-c4520f79bc89)
 - - -
 ## SQL
 ```mysql
