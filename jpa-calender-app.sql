@@ -39,6 +39,7 @@ create table user (
     modified_date datetime(6),
     email varchar(255),
     name varchar(255),
+    password varchar(255),
     primary key (id)
 )
 

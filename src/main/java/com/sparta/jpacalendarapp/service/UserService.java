@@ -1,11 +1,13 @@
 package com.sparta.jpacalendarapp.service;
 
+import com.sparta.jpacalendarapp.config.PasswordEncoder;
 import com.sparta.jpacalendarapp.dto.user.request.PostUserRequestDto;
 import com.sparta.jpacalendarapp.dto.user.request.UpdateUserRequestDto;
 import com.sparta.jpacalendarapp.dto.user.response.GetAllUserResponseDto;
 import com.sparta.jpacalendarapp.dto.user.response.GetUserResponseDto;
 import com.sparta.jpacalendarapp.dto.user.response.PostUserResponseDto;
 import com.sparta.jpacalendarapp.entity.User;
+import com.sparta.jpacalendarapp.jwt.JwtUtil;
 import com.sparta.jpacalendarapp.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,18 +18,24 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final JwtUtil jwtUtil;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, JwtUtil jwtUtil, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.jwtUtil = jwtUtil;
+        this.passwordEncoder = passwordEncoder;
     }
 
     /* 유저 등록 */
     public PostUserResponseDto createUser(PostUserRequestDto request) {
-        User user = new User(request);
+        String password = passwordEncoder.encode(request.getPassword());
+        User user = new User(request, password);
+        String token = jwtUtil.createToken(request.getEmail());
 
-        PostUserResponseDto requestDto = new PostUserResponseDto(userRepository.save(user));
+        PostUserResponseDto responseDto = new PostUserResponseDto(userRepository.save(user), token);
 
-        return requestDto;
+        return responseDto;
     }
 
     /* 유저 단건 조회 */
